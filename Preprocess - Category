@@ -1,0 +1,31 @@
+import numpy as np
+import pandas as pd
+PREVIOUS_MAX_ROWS = pd.options.display.max_rows
+pd.options.display.max_rows = 20
+np.random.seed(12348)
+import matplotlib.pyplot as plt
+import matplotlib
+plt.rc('figure', figsize=(10, 6))
+np.set_printoptions(precision=4, suppress=True)
+
+tips = pd.read_csv('D:/tips.csv')
+
+'''
+1. 어떤 요일에 따라서 팁을 받는 금액을 금액 범위 카테고리별로 정리해고싶다.
+'''
+
+tips['1~2.8'] = ((tips['tip'] >= 1) & (tips['tip'] < 2.8))
+tips['2.8~4.6'] = ((tips['tip'] >= 2.8) & (tips['tip'] < 4.6))
+tips['4.6~6.4'] = ((tips['tip'] >= 4.6) & (tips['tip'] < 6.4))
+tips['6.4~8.2'] = ((tips['tip'] >= 6.4) & (tips['tip'] < 8.2))
+tips['8.2~10'] = ((tips['tip'] >= 8.2) & (tips['tip'] < 10))
+
+tips['tip_total'] = 0 
+
+tips['tip_total'][tips['1~2.8']] = 1 
+tips['tip_total'][tips['2.8~4.6']] = 2 
+tips['tip_total'][tips['4.6~6.4']] = 3
+tips['tip_total'][tips['6.4~8.2']] = 4
+tips['tip_total'][tips['8.2~10']] = 5
+
+tips.plot.bar('tip_total')
